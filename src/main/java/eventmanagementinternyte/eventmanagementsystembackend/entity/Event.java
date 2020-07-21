@@ -31,20 +31,11 @@ public class Event extends BaseEntity{
     private String placeName;
 
     @Column(name = "START_DATE")
-    @FutureOrPresent
     private LocalDate startDate;
 
     @Column(name = "END_DATE")
     @FutureOrPresent
     private LocalDate endDate;
-
-    @Column(name = "START_TIME")
-    @FutureOrPresent
-    private Time startTime;
-
-    @Column(name = "END_TIME")
-    @FutureOrPresent
-    private Time endTime;
 
     @Column(name = "QUOTA")
     private int quota;
