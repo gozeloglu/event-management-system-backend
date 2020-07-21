@@ -8,15 +8,16 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
 @Entity
 @Getter
 @Setter
-@SequenceGenerator(name = "idgen", sequenceName = "USER_SEQ")
+@SequenceGenerator(name = "idgen", sequenceName = "PARTICIPANT_SEQ")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User  extends BaseEntity{
+public class Participant  extends BaseEntity {
 
     @Column(name = "FIRST_NAME")
     private String firstName;

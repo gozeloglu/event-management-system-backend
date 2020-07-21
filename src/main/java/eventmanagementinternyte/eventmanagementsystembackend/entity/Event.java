@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event {
+public class Event extends BaseEntity{
 
     @Column(name = "EVENT_NAME")
     private String eventName;
