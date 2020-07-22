@@ -5,11 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -41,5 +39,17 @@ public class Participant  extends BaseEntity {
     @Column(name = "IDENTITY_NUMBER", unique = true)
     // TODO Validation will be here
     private String identityNumber;
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "participants_meetups",
+            joinColumns = {
+                @JoinColumn(name = "participant_id", referencedColumnName = "id",
+                        nullable = false, updatable = false)},
+                inverseJoinColumns = {
+                    @JoinColumn(name = "meetup_id", referencedColumnName = "id",
+                        nullable = false, updatable = false)
+                }
+    )
+    private Set<Meetup> meetups;
 
 }

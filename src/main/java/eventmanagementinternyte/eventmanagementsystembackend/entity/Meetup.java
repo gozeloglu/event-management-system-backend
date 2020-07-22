@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -41,4 +41,7 @@ public class Meetup extends BaseEntity{
 
     @Column(name = "REGISTERED_USER_COUNT")
     private int registeredUserCount;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Participant> participants;
 }
