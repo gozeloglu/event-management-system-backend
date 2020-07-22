@@ -17,6 +17,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class Meetup extends BaseEntity{
 
+    @Column(name = "MEETUP_ID", unique = true)
+    private String meetupID;
+
     @Column(name = "MEETUP_NAME")
     private String meetupName;
 

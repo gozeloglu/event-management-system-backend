@@ -10,29 +10,36 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @Validated
-///  @RequestMapping(value = "/meetups")
+@RequestMapping(value = "/meetups")
 public class MeetupController {
     private final MeetupService meetupService;
     private final MeetupMapper meetupMapper;
 
-    @GetMapping(value = "/meetups")
+    @GetMapping
     public List<MeetupDTO> listAllMeetups() {
-        System.out.println("List all meetups!");
         List<Meetup> meetupList = meetupService.listAllMeetups();
         return meetupMapper.mapToDto(meetupList);
     }
 
-    @PostMapping(value = "/meetups/createNewMeetup")
+    // TODO Try to change URL with "create-new-meetup"
+    @PostMapping(value = "/createNewMeetup")
     public MeetupDTO addNewMeetup(@Valid @RequestBody MeetupDTO meetupDTO) {
-        System.out.println("Add new Meetup Controller");
-        System.out.println(meetupDTO);
         Meetup meetup = meetupMapper.mapToEntity(meetupDTO);
         Meetup newMeetup = meetupService.saveNewMeetup(meetup);
         return meetupMapper.mapToDto(newMeetup);
+    }
+
+    @PutMapping(value = "/update-meetup/{meetupID}")
+    public MeetupDTO updateMeetup(@PathVariable @Size(min = 5, max = 5) String meetupID,
+                                  @Valid @RequestBody MeetupDTO meetupDTO) {
+        Meetup newMeetup = meetupMapper.mapToEntity(meetupDTO);
+        Meetup updatedMeetup = meetupService.updateMeetup(meetupID, newMeetup);
+        return meetupMapper.mapToDto(updatedMeetup);
     }
 }

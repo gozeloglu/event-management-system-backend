@@ -12,6 +12,9 @@ import java.time.LocalDate;
 @Builder
 public class MeetupDTO {
 
+    @Size(min = 5, max = 5, message = "Event number should have 5 characters!")
+    public final String meetupID;
+
     @Size(max = 255, message = "Event name cannot be larger than 255 characters!")
     public final String meetupName;
 
