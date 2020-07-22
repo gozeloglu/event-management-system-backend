@@ -27,8 +27,7 @@ public class MeetupController {
         return meetupMapper.mapToDto(meetupList);
     }
 
-    // TODO Try to change URL with "create-new-meetup"
-    @PostMapping(value = "/createNewMeetup")
+    @PostMapping(value = "/create-new-meetup")
     public MeetupDTO addNewMeetup(@Valid @RequestBody MeetupDTO meetupDTO) {
         Meetup meetup = meetupMapper.mapToEntity(meetupDTO);
         Meetup newMeetup = meetupService.saveNewMeetup(meetup);
@@ -41,5 +40,10 @@ public class MeetupController {
         Meetup newMeetup = meetupMapper.mapToEntity(meetupDTO);
         Meetup updatedMeetup = meetupService.updateMeetup(meetupID, newMeetup);
         return meetupMapper.mapToDto(updatedMeetup);
+    }
+
+    @DeleteMapping(value = "/delete-meetup/{meetupID}")
+    public void deleteMeetup(@PathVariable @Size(min = 5, max = 5) String meetupID) {
+        meetupService.deleteMeetup(meetupID);
     }
 }
