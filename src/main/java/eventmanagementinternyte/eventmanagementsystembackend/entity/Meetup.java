@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.FutureOrPresent;
-import java.sql.Time;
 import java.time.LocalDate;
 
 @Entity
@@ -16,10 +15,10 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event extends BaseEntity{
+public class Meetup extends BaseEntity{
 
-    @Column(name = "EVENT_NAME")
-    private String eventName;
+    @Column(name = "MEETUP_NAME")
+    private String meetupName;
 
     @Column(name = "DETAILS")
     private String details;
