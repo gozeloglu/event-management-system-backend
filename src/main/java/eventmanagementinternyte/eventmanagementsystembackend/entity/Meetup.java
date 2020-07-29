@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -45,6 +46,6 @@ public class Meetup extends BaseEntity{
     @Column(name = "REGISTERED_USER_COUNT")
     private int registeredUserCount;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Participant> participants;
+    @ManyToMany(mappedBy = "meetups")
+    private Set<Participant> participants = new HashSet<>();
 }

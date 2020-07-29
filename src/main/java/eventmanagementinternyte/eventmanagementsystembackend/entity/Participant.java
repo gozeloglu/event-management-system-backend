@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -40,7 +41,7 @@ public class Participant  extends BaseEntity {
     // TODO Validation will be here
     private String identityNumber;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    /*@ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "participants_meetups",
             joinColumns = {
                 @JoinColumn(name = "participant_id", referencedColumnName = "id",
@@ -49,7 +50,12 @@ public class Participant  extends BaseEntity {
                     @JoinColumn(name = "meetup_id", referencedColumnName = "id",
                         nullable = false, updatable = false)
                 }
+    )*/
+    @ManyToMany
+    @JoinTable(name = "participant_meetup",
+            joinColumns = {@JoinColumn(name = "fk_participant")},
+            inverseJoinColumns = {@JoinColumn(name = "fk_meetup")}
     )
-    private Set<Meetup> meetups;
+    private Set<Meetup> meetups = new HashSet<>();
 
 }
