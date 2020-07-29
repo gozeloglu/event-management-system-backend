@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MeetupMapper {
+
     MeetupDTO mapToDto(Meetup event);
 
     Meetup mapToEntity(MeetupDTO meetupDTO);

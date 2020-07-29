@@ -41,16 +41,6 @@ public class Participant  extends BaseEntity {
     // TODO Validation will be here
     private String identityNumber;
 
-    /*@ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "participants_meetups",
-            joinColumns = {
-                @JoinColumn(name = "participant_id", referencedColumnName = "id",
-                        nullable = false, updatable = false)},
-                inverseJoinColumns = {
-                    @JoinColumn(name = "meetup_id", referencedColumnName = "id",
-                        nullable = false, updatable = false)
-                }
-    )*/
     @ManyToMany
     @JoinTable(name = "participant_meetup",
             joinColumns = {@JoinColumn(name = "fk_participant")},
