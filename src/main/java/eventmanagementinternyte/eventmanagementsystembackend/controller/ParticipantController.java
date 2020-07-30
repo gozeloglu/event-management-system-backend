@@ -63,7 +63,7 @@ public class ParticipantController {
     }
 
     @PostMapping("/register-participant/{username}/{meetupID}")
-    public void registerParticipantToMeetup(@PathVariable String username, @PathVariable String meetupID) {
-        participantService.registerToMeetup(username, meetupID);
+    public String registerParticipantToMeetup(@PathVariable String username, @PathVariable String meetupID) {
+        return participantService.registerToMeetup(username, meetupID);
     }
 }

@@ -90,7 +90,13 @@ public class ParticipantService {
         participantRepository.deleteByUsername(username);
     }
 
-    public void registerToMeetup(String username, String meetupID) {
+    /**
+     * Participants are registered to meetup
+     * @param username is the unique username of the participant
+     * @param meetupID is the ID of the meetup that we want to register
+     * @return Message due to success or failure
+     * */
+    public String registerToMeetup(String username, String meetupID) {
         Optional<Meetup> meetupOptional = meetupRepository.findByMeetupID(meetupID);
         Optional<Participant> participantOptional = participantRepository.findByUsername(username);
         Set<Participant> participantSet;
@@ -103,19 +109,20 @@ public class ParticipantService {
             meetup = meetupOptional.get();
             participantSet = meetup.getParticipants();
         } else {
-            throw new EntityNotFoundException();
+            return "Meetup entity not found!";
         }
 
         if (participantOptional.isPresent()) {
             participant = participantOptional.get();
             meetupSet = participant.getMeetups();
         } else {
-            throw new EntityNotFoundException();
+            return "Participant entity not found!";
         }
         meetupSet.add(meetup);
         participantSet.add(participant);
 
         participantRepository.save(participant);
         meetupRepository.save(meetup);
+        return "Participant is registered to meetup!";
     }
 }
