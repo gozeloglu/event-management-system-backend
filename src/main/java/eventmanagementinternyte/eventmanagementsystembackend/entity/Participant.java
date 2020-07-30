@@ -48,4 +48,12 @@ public class Participant  extends BaseEntity {
     )
     private Set<Meetup> meetups = new HashSet<>();
 
+    public Set<Meetup> getMeetups() {
+        return this.meetups;
+    }
+
+    public boolean isNull() {
+        return this.meetups == null;
+    }
+
 }
