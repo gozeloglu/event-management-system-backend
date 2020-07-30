@@ -61,4 +61,9 @@ public class ParticipantController {
     public void deleteParticipant(@PathVariable  String username) {
         participantService.deleteParticipant(username);
     }
+
+    @PostMapping("/register-participant/{username}/{meetupID}")
+    public void registerParticipantToMeetup(@PathVariable String username, @PathVariable String meetupID) {
+        participantService.registerToMeetup(username, meetupID);
+    }
 }

@@ -3,6 +3,7 @@ package eventmanagementinternyte.eventmanagementsystembackend.service;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.MeetupDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
+import eventmanagementinternyte.eventmanagementsystembackend.repository.MeetupRepository;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
+    private final MeetupRepository meetupRepository;
 
     /**
      * Lists all participants in the database.
@@ -86,5 +88,34 @@ public class ParticipantService {
     @Transactional
     public void deleteParticipant (String username) {
         participantRepository.deleteByUsername(username);
+    }
+
+    public void registerToMeetup(String username, String meetupID) {
+        Optional<Meetup> meetupOptional = meetupRepository.findByMeetupID(meetupID);
+        Optional<Participant> participantOptional = participantRepository.findByUsername(username);
+        Set<Participant> participantSet;
+        Set<Meetup> meetupSet;
+
+        Participant participant;
+        Meetup meetup;
+
+        if (meetupOptional.isPresent()) {
+            meetup = meetupOptional.get();
+            participantSet = meetup.getParticipants();
+        } else {
+            throw new EntityNotFoundException();
+        }
+
+        if (participantOptional.isPresent()) {
+            participant = participantOptional.get();
+            meetupSet = participant.getMeetups();
+        } else {
+            throw new EntityNotFoundException();
+        }
+        meetupSet.add(meetup);
+        participantSet.add(participant);
+
+        participantRepository.save(participant);
+        meetupRepository.save(meetup);
     }
 }
