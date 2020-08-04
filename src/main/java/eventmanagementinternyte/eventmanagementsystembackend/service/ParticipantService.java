@@ -1,10 +1,13 @@
 package eventmanagementinternyte.eventmanagementsystembackend.service;
 
+import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
+import eventmanagementinternyte.eventmanagementsystembackend.mapper.ParticipantMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.MeetupRepository;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -19,8 +22,17 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class ParticipantService {
 
-    private final ParticipantRepository participantRepository;
-    private final MeetupRepository meetupRepository;
+    private ParticipantRepository participantRepository;
+    private MeetupRepository meetupRepository;
+    private ParticipantMapper participantMapper;
+
+    /// TODO Attention here if there will be bug
+    @Autowired
+    public ParticipantService(ParticipantMapper participantMapper, ParticipantRepository participantRepository, MeetupRepository meetupRepository) {
+        this.participantMapper = participantMapper;
+        this.participantRepository = participantRepository;
+        this.meetupRepository = meetupRepository;
+    }
 
     /**
      * Lists all participants in the database.
@@ -60,7 +72,7 @@ public class ParticipantService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    public Meetup addMeetupToParticipant (String username, Meetup meetup) {
+    public Meetup addMeetupToParticipant(String username, Meetup meetup) {
         Optional<Participant> meetupOptional = participantRepository.findByUsername(username);
         if (meetupOptional.isPresent()) {
             Participant participant = meetupOptional.get();
@@ -80,19 +92,21 @@ public class ParticipantService {
 
     /**
      * Deletes the given user from database.
+     *
      * @param username is the username that we want to delete
-     * */
+     */
     @Transactional
-    public void deleteParticipant (String username) {
+    public void deleteParticipant(String username) {
         participantRepository.deleteByUsername(username);
     }
 
     /**
      * Participants are registered to meetup
+     *
      * @param username is the unique username of the participant
      * @param meetupID is the ID of the meetup that we want to register
      * @return Message due to success or failure
-     * */
+     */
     public String registerToMeetup(String username, String meetupID) {
         Optional<Meetup> meetupOptional = meetupRepository.findByMeetupID(meetupID);
         Optional<Participant> participantOptional = participantRepository.findByUsername(username);
@@ -121,5 +135,26 @@ public class ParticipantService {
         participantRepository.save(participant);
         meetupRepository.save(meetup);
         return "Participant is registered to meetup!";
+    }
+
+    /**
+     * This method satisfies the login operation for participants
+     *
+     * @param username of the participant who wants to login the system
+     * @param password of the participant
+     * @return ParticipantDTO object that we want to have
+     */
+    public ParticipantDTO login(String username, String password) throws Exception {
+        Optional<Participant> optionalParticipant = participantRepository.findByUsername(username);
+        if (optionalParticipant.isPresent()) {
+            Participant participant = optionalParticipant.get();
+            if (participant.getPassword().equals(password)) {
+                return participantMapper.mapToDto(participant);
+            } else {
+                throw new Exception("Password is not correct!");
+            }
+        } else {
+            throw new Exception("User not found!");
+        }
     }
 }

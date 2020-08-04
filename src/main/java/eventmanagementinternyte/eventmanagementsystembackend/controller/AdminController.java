@@ -32,8 +32,8 @@ public class AdminController {
     }
 
     @PostMapping(value = "/login")
-    public Admin login(@Valid @RequestBody Admin admin) throws Exception {
-        System.out.println(admin.getUserName() + "   " + admin.getPassword());
-        return adminService.login(admin.getUserName(), admin.getPassword());
+    public AdminDTO login(@Valid @RequestBody Admin admin) throws Exception {
+        System.out.println(admin.getUsername() + "   " + admin.getPassword());
+        return adminService.login(admin.getUsername(), admin.getPassword());
     }
 }

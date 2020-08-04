@@ -66,4 +66,9 @@ public class ParticipantController {
     public String registerParticipantToMeetup(@PathVariable String username, @PathVariable String meetupID) {
         return participantService.registerToMeetup(username, meetupID);
     }
+
+    @PostMapping("/login")
+    public ParticipantDTO login(@Valid @RequestBody Participant participant) throws Exception {
+        return participantService.login(participant.getUsername(), participant.getPassword());
+    }
 }

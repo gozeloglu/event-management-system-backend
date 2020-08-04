@@ -4,5 +4,5 @@ import eventmanagementinternyte.eventmanagementsystembackend.entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdminRepository extends JpaRepository<Admin, Long> {
-    Admin findByUserName(String userName);
+    Admin findByUsername(String username);
 }
