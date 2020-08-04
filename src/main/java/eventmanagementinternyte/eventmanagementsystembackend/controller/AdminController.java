@@ -22,12 +22,18 @@ import javax.validation.Valid;
 public class AdminController {
 
     private final AdminService adminService;
-    private final AdminMapper adminMapper;
+    private final AdminMapper adminMapper = null;
 
     @PostMapping(value = "/create-new-admin")
     public AdminDTO saveNewParticipantToDB(@Valid @RequestBody AdminDTO adminDTO) {
         Admin admin = adminMapper.mapToEntity(adminDTO);
         Admin newAdmin = adminService.saveNewAdminToDB(admin);
         return adminMapper.mapToDto(newAdmin);
+    }
+
+    @PostMapping(value = "/login")
+    public Admin login(@Valid @RequestBody Admin admin) throws Exception {
+        System.out.println(admin.getUserName() + "   " + admin.getPassword());
+        return adminService.login(admin.getUserName(), admin.getPassword());
     }
 }

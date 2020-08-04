@@ -29,7 +29,7 @@ public class Admin extends BaseEntity{
     private String email;
 
     @Column(name = "USERNAME", unique = true)
-    private String username;
+    private String userName;
 
     @Column(name = "PASSWORD")
     private String password;

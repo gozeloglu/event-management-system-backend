@@ -1,6 +1,5 @@
 package eventmanagementinternyte.eventmanagementsystembackend.service;
 
-import eventmanagementinternyte.eventmanagementsystembackend.dto.MeetupDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.MeetupRepository;
@@ -9,9 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.Part;
 import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
