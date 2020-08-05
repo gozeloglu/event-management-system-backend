@@ -46,4 +46,9 @@ public class MeetupController {
     public void deleteMeetup(@PathVariable @Size(min = 5, max = 5) String meetupID) {
         meetupService.deleteMeetup(meetupID);
     }
+
+    @GetMapping(value = "/{meetupID}")
+    public MeetupDTO getMeetup(@PathVariable @Size(max = 5, min = 5) String meetupID) {
+        return meetupService.getMeetup(meetupID);
+    }
 }
