@@ -2,8 +2,10 @@ package eventmanagementinternyte.eventmanagementsystembackend.service;
 
 import eventmanagementinternyte.eventmanagementsystembackend.dto.MeetupDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
+import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.MeetupMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.MeetupRepository;
+import eventmanagementinternyte.eventmanagementsystembackend.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +13,14 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class MeetupService {
 
     private final MeetupRepository meetupRepository;
+    private final ParticipantRepository participantRepository;
     private final MeetupMapper meetupMapper;
 
     /**
@@ -89,6 +93,38 @@ public class MeetupService {
      */
     @Transactional
     public void deleteMeetup(String meetupID) {
+        // Fetch the all participants
+        List<Participant> participantList = participantRepository.findAll();
+
+        // Iterate over the participant list
+        for (int i = 0; i < participantList.size(); i++) {
+
+            // Get meetup set of the each participant
+            Set<Meetup> meetupSet = participantList.get(i).getMeetups();
+
+            if (meetupSet.size() > 0) {
+
+                // Convert set to meetup array
+                Object[] meetups = meetupSet.toArray();
+
+                // Traverse the meetup array
+                for (int j = 0; j < meetups.length; j++) {
+
+                    // Assign each element to Meetup object
+                    Meetup meetup = (Meetup) meetups[j];
+                    if (meetup.getMeetupID().equals(meetupID)) {
+
+                        // Remove from set
+                        meetupSet.remove(meetup);
+                        // Update the participant's set
+                        participantList.get(i).setMeetups(meetupSet);
+                        // Update the participant
+                        participantRepository.save(participantList.get(i));
+                        break;
+                    }
+                }
+            }
+        }
         meetupRepository.deleteByMeetupID(meetupID);
     }
 
