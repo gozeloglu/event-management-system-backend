@@ -84,4 +84,9 @@ public class ParticipantController {
     public MeetupDTO getMeetupDetail(@PathVariable String meetupID) {
         return participantService.getMeetupDetail(meetupID);
     }
+
+    @GetMapping("participant-detail/{username}")
+    public ParticipantDTO getParticipantDetails(@PathVariable String username) {
+        return participantService.getParticipantDetails(username);
+    }
 }

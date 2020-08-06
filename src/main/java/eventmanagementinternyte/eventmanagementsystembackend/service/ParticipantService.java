@@ -196,4 +196,21 @@ public class ParticipantService {
             throw new EntityNotFoundException();
         }
     }
+
+    /**
+     * This method fetches the participant details and returns to client
+     *
+     * @param username specifies the participant who we want to get details
+     * @return ParticipantDTO object which includes the personal information
+     * */
+    public ParticipantDTO getParticipantDetails(String username) {
+        Optional<Participant> optionalParticipant = participantRepository.findByUsername(username);
+
+        if (optionalParticipant.isPresent()) {
+            Participant participant = optionalParticipant.get();
+            return participantMapper.mapToDto(participant);
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
 }
