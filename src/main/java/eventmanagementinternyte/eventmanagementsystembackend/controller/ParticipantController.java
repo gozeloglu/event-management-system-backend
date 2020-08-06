@@ -79,4 +79,9 @@ public class ParticipantController {
         List<Meetup> meetupList = participantService.getAllMeetups();
         return meetupMapper.mapToDto(meetupList);
     }
+
+    @GetMapping("/meetup-detail/{meetupID}")
+    public MeetupDTO getMeetupDetail(@PathVariable String meetupID) {
+        return participantService.getMeetupDetail(meetupID);
+    }
 }

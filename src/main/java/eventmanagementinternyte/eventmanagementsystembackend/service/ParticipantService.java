@@ -4,6 +4,7 @@ import eventmanagementinternyte.eventmanagementsystembackend.dto.MeetupDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
+import eventmanagementinternyte.eventmanagementsystembackend.mapper.MeetupMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.ParticipantMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.MeetupRepository;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.ParticipantRepository;
@@ -26,13 +27,15 @@ public class ParticipantService {
     private ParticipantRepository participantRepository;
     private MeetupRepository meetupRepository;
     private ParticipantMapper participantMapper;
+    private MeetupMapper meetupMapper;
 
     /// TODO Attention here if there will be bug
     @Autowired
-    public ParticipantService(ParticipantMapper participantMapper, ParticipantRepository participantRepository, MeetupRepository meetupRepository) {
+    public ParticipantService(ParticipantMapper participantMapper, ParticipantRepository participantRepository, MeetupRepository meetupRepository, MeetupMapper meetupMapper) {
         this.participantMapper = participantMapper;
         this.participantRepository = participantRepository;
         this.meetupRepository = meetupRepository;
+        this.meetupMapper = meetupMapper;
     }
 
     /**
@@ -159,7 +162,29 @@ public class ParticipantService {
         }
     }
 
+    /**
+     * This method fetches the all meetups for participants
+     *
+     * @return List of Meetup object
+     */
     public List<Meetup> getAllMeetups() {
         return meetupRepository.findAll();
+    }
+
+    /**
+     * This method fetches the details of the given meetup id
+     *
+     * @param meetupID specifies the id of the meetup that we want to get details
+     * @return MeetupDTO object which includes the information about given meetup
+     */
+    public MeetupDTO getMeetupDetail(String meetupID) {
+        Optional<Meetup> optionalMeetup = meetupRepository.findByMeetupID(meetupID);
+
+        if (optionalMeetup.isPresent()) {
+            Meetup meetup = optionalMeetup.get();
+            return meetupMapper.mapToDto(meetup);
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 }
