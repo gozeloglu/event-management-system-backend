@@ -29,6 +29,7 @@ public class ParticipantController {
 
     @GetMapping
     public List<ParticipantDTO> listAllParticipants() {
+        // TODO Control the empty participants
         List<Participant> participantList = participantService.listAllParticipants();
         return participantMapper.mapToDto(participantList);
     }
@@ -70,5 +71,12 @@ public class ParticipantController {
     @PostMapping("/login")
     public ParticipantDTO login(@Valid @RequestBody Participant participant) throws Exception {
         return participantService.login(participant.getUsername(), participant.getPassword());
+    }
+
+    @GetMapping("/all-meetups")
+    public List<MeetupDTO> getAllMeetups() {
+        // TODO Control the empty meetup
+        List<Meetup> meetupList = participantService.getAllMeetups();
+        return meetupMapper.mapToDto(meetupList);
     }
 }

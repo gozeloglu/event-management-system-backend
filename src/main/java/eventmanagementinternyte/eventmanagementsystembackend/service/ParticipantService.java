@@ -1,5 +1,6 @@
 package eventmanagementinternyte.eventmanagementsystembackend.service;
 
+import eventmanagementinternyte.eventmanagementsystembackend.dto.MeetupDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
@@ -156,5 +157,9 @@ public class ParticipantService {
         } else {
             throw new Exception("User not found!");
         }
+    }
+
+    public List<Meetup> getAllMeetups() {
+        return meetupRepository.findAll();
     }
 }
