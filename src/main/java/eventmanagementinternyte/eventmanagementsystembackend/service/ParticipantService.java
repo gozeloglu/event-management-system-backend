@@ -133,9 +133,18 @@ public class ParticipantService {
         } else {
             return "Participant entity not found!";
         }
+        int before = participantSet.size();
         meetupSet.add(meetup);
         participantSet.add(participant);
-
+        int registeredUserCount = participantSet.size();
+        int quota = meetup.getQuota();
+        if (before == registeredUserCount) {
+            return "You already registered to this meetup";
+        }
+        if (registeredUserCount > quota) {
+            return "Quota is full!";
+        }
+        meetup.setRegisteredUserCount(registeredUserCount);
         participantRepository.save(participant);
         meetupRepository.save(meetup);
         return "Participant is registered to meetup!";
