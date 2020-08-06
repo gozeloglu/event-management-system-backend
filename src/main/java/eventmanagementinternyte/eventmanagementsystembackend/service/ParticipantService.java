@@ -124,14 +124,14 @@ public class ParticipantService {
             meetup = meetupOptional.get();
             participantSet = meetup.getParticipants();
         } else {
-            return "Meetup entity not found!";
+            return "Meetup could not found!";
         }
 
         if (participantOptional.isPresent()) {
             participant = participantOptional.get();
             meetupSet = participant.getMeetups();
         } else {
-            return "Participant entity not found!";
+            return "Participant could not found!";
         }
         int before = participantSet.size();
         meetupSet.add(meetup);
@@ -147,7 +147,7 @@ public class ParticipantService {
         meetup.setRegisteredUserCount(registeredUserCount);
         participantRepository.save(participant);
         meetupRepository.save(meetup);
-        return "Participant is registered to meetup!";
+        return "You areregistered to meetup!";
     }
 
     /**
