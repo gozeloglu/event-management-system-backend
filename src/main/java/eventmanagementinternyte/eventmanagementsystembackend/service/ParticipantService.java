@@ -289,11 +289,9 @@ public class ParticipantService {
         } else {
             return "Participant could not found!";
         }
-        int before = participantSet.size();
         meetupSet.remove(meetup);
         participantSet.remove(participant);
         int registeredUserCount = participantSet.size();
-        int quota = meetup.getQuota();
         meetup.setRegisteredUserCount(registeredUserCount);
         participantRepository.save(participant);
         meetupRepository.save(meetup);

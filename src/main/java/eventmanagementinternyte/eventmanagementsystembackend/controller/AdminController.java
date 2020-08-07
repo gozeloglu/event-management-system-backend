@@ -5,15 +5,17 @@ import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Admin;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.AdminMapper;
+import eventmanagementinternyte.eventmanagementsystembackend.mapper.ParticipantMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class AdminController {
 
     private final AdminService adminService;
     private final AdminMapper adminMapper = null;
+    private final ParticipantMapper participantMapper;
 
     @PostMapping(value = "/create-new-admin")
     public AdminDTO saveNewParticipantToDB(@Valid @RequestBody AdminDTO adminDTO) {
@@ -35,5 +38,16 @@ public class AdminController {
     public AdminDTO login(@Valid @RequestBody Admin admin) throws Exception {
         System.out.println(admin.getUsername() + "   " + admin.getPassword());
         return adminService.login(admin.getUsername(), admin.getPassword());
+    }
+
+    @GetMapping(value = "/all-participants/{meetupID}")
+    public List<ParticipantDTO> listAllParticipants(@PathVariable String meetupID) {
+        try {
+            Set<Participant> participantSet = adminService.listAllParticipants(meetupID);
+            return participantMapper.mapToDto(new ArrayList<>(participantSet));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 }
