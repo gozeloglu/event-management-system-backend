@@ -94,4 +94,9 @@ public class ParticipantController {
     public String updateProfile(@PathVariable String identityNumber, @Valid @RequestBody Participant participant) {
         return participantService.updateParticipant(identityNumber, participant);
     }
+
+    @PostMapping("/unregister-participant/{username}/{meetupID}")
+    public String unregisterMeetup(@PathVariable String username, @PathVariable String meetupID) {
+        return participantService.unregisterMeetup(username, meetupID);
+    }
 }

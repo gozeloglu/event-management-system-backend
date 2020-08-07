@@ -114,6 +114,7 @@ public class ParticipantService {
     public String registerToMeetup(String username, String meetupID) {
         Optional<Meetup> meetupOptional = meetupRepository.findByMeetupID(meetupID);
         Optional<Participant> participantOptional = participantRepository.findByUsername(username);
+
         Set<Participant> participantSet;
         Set<Meetup> meetupSet;
 
@@ -253,5 +254,49 @@ public class ParticipantService {
         oldProfile.setAge(participant.getAge());
         oldProfile.setIdentityNumber(participant.getIdentityNumber());
         return oldProfile;
+    }
+
+    /**
+     * This method unregistered from meetup
+     * Fetches the meetupSet and participantSet
+     * Removes the participant from participantSet
+     * Removes the meetup from meetupSet
+     *
+     * @param username specifies the participant that we want to unregister
+     * @param meetupID specifies the meetup that we want to unregister
+     * @return Appropriate string message
+     * */
+    public String unregisterMeetup(String username, String meetupID) {
+        Optional<Meetup> meetupOptional = meetupRepository.findByMeetupID(meetupID);
+        Optional<Participant> participantOptional = participantRepository.findByUsername(username);
+
+        Set<Participant> participantSet;
+        Set<Meetup> meetupSet;
+
+        Participant participant;
+        Meetup meetup;
+
+        if (meetupOptional.isPresent()) {
+            meetup = meetupOptional.get();
+            participantSet = meetup.getParticipants();
+        } else {
+            return "Meetup could not found!";
+        }
+
+        if (participantOptional.isPresent()) {
+            participant = participantOptional.get();
+            meetupSet = participant.getMeetups();
+        } else {
+            return "Participant could not found!";
+        }
+        int before = participantSet.size();
+        meetupSet.remove(meetup);
+        participantSet.remove(participant);
+        int registeredUserCount = participantSet.size();
+        int quota = meetup.getQuota();
+        meetup.setRegisteredUserCount(registeredUserCount);
+        participantRepository.save(participant);
+        meetupRepository.save(meetup);
+        return "You are unregistered to meetup!";
     }
 }
