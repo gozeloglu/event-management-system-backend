@@ -8,10 +8,8 @@ import java.util.Optional;
 
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
 
-   /* @Query("select p.meetups from Participant p where p.username = :username")
-    Optional<Meetup> getMeetupListByUsername(String username);
-*/
    Optional<Participant> findByUsername(String username);
+   Optional<Participant> findByIdentityNumber(String identityNumber);
 
    @Transactional
    void deleteByUsername(String username);

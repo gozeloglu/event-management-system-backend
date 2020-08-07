@@ -59,7 +59,7 @@ public class ParticipantController {
     }
 
     @DeleteMapping("/delete-participant/{username}")
-    public void deleteParticipant(@PathVariable  String username) {
+    public void deleteParticipant(@PathVariable String username) {
         participantService.deleteParticipant(username);
     }
 
@@ -85,8 +85,13 @@ public class ParticipantController {
         return participantService.getMeetupDetail(meetupID);
     }
 
-    @GetMapping("participant-detail/{username}")
+    @GetMapping("/participant-detail/{username}")
     public ParticipantDTO getParticipantDetails(@PathVariable String username) {
         return participantService.getParticipantDetails(username);
+    }
+
+    @PutMapping("/update-profile/{identityNumber}")
+    public String updateProfile(@PathVariable String identityNumber, @Valid @RequestBody Participant participant) {
+        return participantService.updateParticipant(identityNumber, participant);
     }
 }

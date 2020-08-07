@@ -147,7 +147,7 @@ public class ParticipantService {
         meetup.setRegisteredUserCount(registeredUserCount);
         participantRepository.save(participant);
         meetupRepository.save(meetup);
-        return "You areregistered to meetup!";
+        return "You are registered to meetup!";
     }
 
     /**
@@ -202,7 +202,7 @@ public class ParticipantService {
      *
      * @param username specifies the participant who we want to get details
      * @return ParticipantDTO object which includes the personal information
-     * */
+     */
     public ParticipantDTO getParticipantDetails(String username) {
         Optional<Participant> optionalParticipant = participantRepository.findByUsername(username);
 
@@ -212,5 +212,46 @@ public class ParticipantService {
         } else {
             throw new EntityNotFoundException();
         }
+    }
+
+    /**
+     * This method updates the participant profile by using identity number
+     * Send a query and fetches the participant object in Optional type
+     * Updates the object with helper function - updateParticipantFromDB
+     * Saves on the database
+     *
+     * @param identityNumber specifies whose participant will be updated
+     * @param participant    contains the participant information
+     * @return Message in terms of result
+     */
+    @Transactional
+    public String updateParticipant(String identityNumber, Participant participant) {
+        Optional<Participant> optionalParticipant = participantRepository.findByIdentityNumber(identityNumber);
+
+        if (optionalParticipant.isPresent()) {
+            Participant oldProfile = optionalParticipant.get();
+            participant = updateParticipantFromDB(participant, oldProfile);
+            participantRepository.save(participant);
+            return "Your profile is updated";
+        } else {
+            return "Your profile could not updated!";
+        }
+    }
+
+    /**
+     * This function updates the object
+     *
+     * @param participant contains the information
+     * @param oldProfile  contains the information before updating
+     * @return Participant object which includes the updated information
+     */
+    private Participant updateParticipantFromDB(Participant participant, Participant oldProfile) {
+        oldProfile.setFirstName(participant.getFirstName());
+        oldProfile.setLastName(participant.getLastName());
+        oldProfile.setEmail(participant.getEmail());
+        oldProfile.setUsername(participant.getUsername());
+        oldProfile.setAge(participant.getAge());
+        oldProfile.setIdentityNumber(participant.getIdentityNumber());
+        return oldProfile;
     }
 }
