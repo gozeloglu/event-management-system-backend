@@ -50,4 +50,14 @@ public class AdminController {
             return new ArrayList<>();
         }
     }
+
+    @PutMapping(value = "/update-profile/{identityNumber}")
+    public String updateProfile(@PathVariable String identityNumber, @Valid @RequestBody Admin admin) {
+        return adminService.updateProfile(identityNumber, admin);
+    }
+
+    @GetMapping(value = "/admin-details/{username}")
+    public AdminDTO getAdminDetails(@PathVariable String username) {
+        return adminService.getAdminDetails(username);
+    }
 }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -64,6 +65,13 @@ public class AdminService {
         }
     }
 
+    /**
+     * This method fetches the all participants in the meetup which is given as a parameter
+     *
+     * @param meetupID is the id of the meetup which we want to fetch all registered meetups
+     * @return list of participants
+     * @throws Exception meetup could not found
+     */
     public Set<Participant> listAllParticipants(String meetupID) throws Exception {
         Optional<Meetup> optionalMeetup = meetupRepository.findByMeetupID(meetupID);
 
@@ -77,5 +85,47 @@ public class AdminService {
         } else {
             throw new Exception("Meetup could not found!");
         }
+    }
+
+    /**
+     * This method updates the profile of the admin
+     *
+     * @param identityNumber is a unique number of the admin
+     * @param admin          is a Admin object which includes the information of the admin
+     * @return A string message after operation
+     */
+    @Transactional
+    public String updateProfile(String identityNumber, Admin admin) {
+        Optional<Admin> optionalAdmin = adminRepository.findByIdentityNumber(identityNumber);
+
+        if (optionalAdmin.isPresent()) {
+            Admin oldProfile = optionalAdmin.get();
+            admin = updateAdminFromDB(admin, oldProfile);
+            adminRepository.save(admin);
+            return "Your profile is updated";
+        } else {
+            return "Your profile could not updated!";
+        }
+    }
+
+    private Admin updateAdminFromDB(Admin admin, Admin oldProfile) {
+        oldProfile.setFirstName(admin.getFirstName());
+        oldProfile.setLastName(admin.getLastName());
+        oldProfile.setEmail(admin.getEmail());
+        oldProfile.setUsername(admin.getUsername());
+        oldProfile.setAge(admin.getAge());
+        oldProfile.setIdentityNumber(admin.getIdentityNumber());
+        return oldProfile;
+    }
+
+    /**
+     * This method fetches the details of the admin
+     *
+     * @param username is the admin's username
+     * @return AdminDTO object
+     */
+    public AdminDTO getAdminDetails(String username) {
+        Admin admin = adminRepository.findByUsername(username);
+        return adminMapper.mapToDto(admin);
     }
 }
