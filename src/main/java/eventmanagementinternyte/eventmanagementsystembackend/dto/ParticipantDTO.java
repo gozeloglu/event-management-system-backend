@@ -26,7 +26,7 @@ public class ParticipantDTO {
     @Size(max = 255, message = "Username cannot be larger than 255 characters!")
     public final String username;
 
-    @Size(max = 255, message = "Password cannot be larger than 255 characters!")
+    @Size(max = 255, min = 8, message = "Password cannot be larger than 255 characters!")
     public final String password;
 
     @Min(value = 18, message = "Admin cannot be younger than 18 years old!")

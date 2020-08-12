@@ -48,4 +48,7 @@ public class Meetup extends BaseEntity{
 
     @ManyToMany(mappedBy = "meetups")
     private Set<Participant> participants = new HashSet<>();
+
+    @OneToMany(mappedBy = "meetup")
+    private Set<Question> questionSet = new HashSet<>();
 }
