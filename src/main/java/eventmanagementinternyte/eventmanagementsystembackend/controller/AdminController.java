@@ -24,7 +24,7 @@ import java.util.Set;
 public class AdminController {
 
     private final AdminService adminService;
-    private final AdminMapper adminMapper = null;
+    private final AdminMapper adminMapper;
     private final ParticipantMapper participantMapper;
 
     @PostMapping(value = "/create-new-admin")
