@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface MeetupRepository extends JpaRepository<Meetup, Long> {
 
-    Optional<Meetup> findByMeetupID(String meetupID);
+    // Optional<Meetup> findById(Long id);
 
-    @Transactional
-    void deleteByMeetupID(String meetupID);
+    //@Transactional
+    //void deleteById(String meetupID);
 }

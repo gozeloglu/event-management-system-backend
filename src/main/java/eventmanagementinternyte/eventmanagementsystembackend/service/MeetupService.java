@@ -51,9 +51,9 @@ public class MeetupService {
      * @return Meetup object
      */
     @Transactional
-    public Meetup updateMeetup(String meetupID, Meetup newMeetup) {
+    public Meetup updateMeetup(Long meetupID, Meetup newMeetup) {
         // Get the given meetup from database
-        Optional<Meetup> meetupOptional = meetupRepository.findByMeetupID(meetupID);
+        Optional<Meetup> meetupOptional = meetupRepository.findById(meetupID);
         if (meetupOptional.isPresent()) {
             // If meetup is found, assign the Optional object to Meetup object
             // Update the object with helper function
@@ -74,7 +74,7 @@ public class MeetupService {
      * @return updated Meetup object
      */
     private Meetup updateMeetupFromDB(Meetup newMeetup, Meetup oldMeetup) {
-        oldMeetup.setMeetupID(newMeetup.getMeetupID());
+        // oldMeetup.setMeetupID(newMeetup.getMeetupID());
         oldMeetup.setMeetupName(newMeetup.getMeetupName());
         oldMeetup.setDetails(newMeetup.getDetails());
         oldMeetup.setAddress(newMeetup.getAddress());
@@ -92,7 +92,7 @@ public class MeetupService {
      * @param meetupID is the id of the meetup that we want to delete
      */
     @Transactional
-    public void deleteMeetup(String meetupID) {
+    public void deleteMeetup(Long meetupID) {
         // Fetch the all participants
         List<Participant> participantList = participantRepository.findAll();
 
@@ -112,7 +112,7 @@ public class MeetupService {
 
                     // Assign each element to Meetup object
                     Meetup meetup = (Meetup) meetups[j];
-                    if (meetup.getMeetupID().equals(meetupID)) {
+                    if (meetup.getId().equals(meetupID)) {
 
                         // Remove from set
                         meetupSet.remove(meetup);
@@ -125,7 +125,7 @@ public class MeetupService {
                 }
             }
         }
-        meetupRepository.deleteByMeetupID(meetupID);
+        meetupRepository.deleteById(meetupID);
     }
 
     /**
@@ -133,8 +133,8 @@ public class MeetupService {
      * @param meetupID specifies the meetup id
      * @return MeetupDTO object
      */
-    public MeetupDTO getMeetup(String meetupID) {
-        Optional<Meetup> optionalMeetup = meetupRepository.findByMeetupID(meetupID);
+    public MeetupDTO getMeetup(Long meetupID) {
+        Optional<Meetup> optionalMeetup = meetupRepository.findById(meetupID);
 
         if (optionalMeetup.isPresent()) {
             Meetup meetup = optionalMeetup.get();

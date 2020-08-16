@@ -61,15 +61,14 @@ public class QuestionService {
      * If question is saved successfully, it returns success message
      * If question is not saved successfully, it returns fail message
      */
-    public String saveNewQuestion(String meetupID, Long id) {
+    public String saveNewQuestion(Long meetupID, Long id) {
         // questionRepository.save(question);
-        Optional<Meetup> optionalMeetup = meetupRepository.findByMeetupID(meetupID);
+        Optional<Meetup> optionalMeetup = meetupRepository.findById(meetupID);
         Optional<Question> optionalQuestion = questionRepository.findById(id);
         if (optionalMeetup.isPresent()) {
             Meetup meetup = optionalMeetup.get();
             Question question = optionalQuestion.get();
 
-            question.setMeetupID(meetupID);
             questionRepository.save(question);
            /* Meetup meetup = optionalMeetup.get();
             Question question = optionalQuestion.get();

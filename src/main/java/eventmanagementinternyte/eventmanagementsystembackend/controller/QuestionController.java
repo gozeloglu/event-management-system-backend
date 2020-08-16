@@ -23,7 +23,7 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/add-new-question/{meetupID}")
-    public String saveNewQuestion(@PathVariable String meetupID, @Valid @RequestBody Question question) {
+    public String saveNewQuestion(@PathVariable Long meetupID, @Valid @RequestBody Question question) {
         Long id = questionService.saveQuestion(question);
         return questionService.saveNewQuestion(meetupID, id);
     }

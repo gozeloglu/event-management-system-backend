@@ -3,6 +3,10 @@ package eventmanagementinternyte.eventmanagementsystembackend.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -12,8 +16,7 @@ import java.time.LocalDate;
 @Builder
 public class MeetupDTO {
 
-    @Size(min = 5, max = 5, message = "Event number should have 5 characters!")
-    public final String meetupID;
+    private final Long id;
 
     @Size(max = 255, message = "Event name cannot be larger than 255 characters!")
     public final String meetupName;

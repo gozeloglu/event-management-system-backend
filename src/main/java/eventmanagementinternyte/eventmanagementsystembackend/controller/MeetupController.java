@@ -35,7 +35,7 @@ public class MeetupController {
     }
 
     @PutMapping(value = "/update-meetup/{meetupID}")
-    public MeetupDTO updateMeetup(@PathVariable @Size(min = 5, max = 5) String meetupID,
+    public MeetupDTO updateMeetup(@PathVariable Long meetupID,
                                   @Valid @RequestBody MeetupDTO meetupDTO) {
         Meetup newMeetup = meetupMapper.mapToEntity(meetupDTO);
         Meetup updatedMeetup = meetupService.updateMeetup(meetupID, newMeetup);
@@ -43,12 +43,12 @@ public class MeetupController {
     }
 
     @DeleteMapping(value = "/delete-meetup/{meetupID}")
-    public void deleteMeetup(@PathVariable @Size(min = 5, max = 5) String meetupID) {
+    public void deleteMeetup(@PathVariable Long meetupID) {
         meetupService.deleteMeetup(meetupID);
     }
 
     @GetMapping(value = "/{meetupID}")
-    public MeetupDTO getMeetup(@PathVariable @Size(max = 5, min = 5) String meetupID) {
+    public MeetupDTO getMeetup(@PathVariable Long meetupID) {
         return meetupService.getMeetup(meetupID);
     }
 }

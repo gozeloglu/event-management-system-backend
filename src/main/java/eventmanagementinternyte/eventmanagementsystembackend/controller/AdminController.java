@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +34,13 @@ public class AdminController {
     }
 
     @PostMapping(value = "/login")
-    public AdminDTO login(@Valid @RequestBody Admin admin) throws Exception {
+    public AdminDTO login(@RequestBody Admin admin) throws Exception {
         System.out.println(admin.getUsername() + "   " + admin.getPassword());
         return adminService.login(admin.getUsername(), admin.getPassword());
     }
 
     @GetMapping(value = "/all-participants/{meetupID}")
-    public List<ParticipantDTO> listAllParticipants(@PathVariable String meetupID) {
+    public List<ParticipantDTO> listAllParticipants(@PathVariable Long meetupID) {
         try {
             Set<Participant> participantSet = adminService.listAllParticipants(meetupID);
             return participantMapper.mapToDto(new ArrayList<>(participantSet));

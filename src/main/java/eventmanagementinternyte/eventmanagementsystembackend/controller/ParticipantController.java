@@ -64,12 +64,12 @@ public class ParticipantController {
     }
 
     @PostMapping("/register-participant/{username}/{meetupID}")
-    public String registerParticipantToMeetup(@PathVariable String username, @PathVariable String meetupID) {
+    public String registerParticipantToMeetup(@PathVariable String username, @PathVariable Long meetupID) {
         return participantService.registerToMeetup(username, meetupID);
     }
 
     @PostMapping("/login")
-    public ParticipantDTO login(@Valid @RequestBody Participant participant) throws Exception {
+    public ParticipantDTO login(@RequestBody Participant participant) throws Exception {
         return participantService.login(participant.getUsername(), participant.getPassword());
     }
 
@@ -81,7 +81,7 @@ public class ParticipantController {
     }
 
     @GetMapping("/meetup-detail/{meetupID}")
-    public MeetupDTO getMeetupDetail(@PathVariable String meetupID) {
+    public MeetupDTO getMeetupDetail(@PathVariable Long meetupID) {
         return participantService.getMeetupDetail(meetupID);
     }
 
@@ -96,7 +96,7 @@ public class ParticipantController {
     }
 
     @PostMapping("/unregister-participant/{username}/{meetupID}")
-    public String unregisterMeetup(@PathVariable String username, @PathVariable String meetupID) {
+    public String unregisterMeetup(@PathVariable String username, @PathVariable Long meetupID) {
         return participantService.unregisterMeetup(username, meetupID);
     }
 }

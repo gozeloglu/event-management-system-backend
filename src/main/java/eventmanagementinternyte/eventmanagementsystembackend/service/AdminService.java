@@ -1,7 +1,6 @@
 package eventmanagementinternyte.eventmanagementsystembackend.service;
 
 import eventmanagementinternyte.eventmanagementsystembackend.dto.AdminDTO;
-import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Admin;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -72,8 +70,8 @@ public class AdminService {
      * @return list of participants
      * @throws Exception meetup could not found
      */
-    public Set<Participant> listAllParticipants(String meetupID) throws Exception {
-        Optional<Meetup> optionalMeetup = meetupRepository.findByMeetupID(meetupID);
+    public Set<Participant> listAllParticipants(Long meetupID) throws Exception {
+        Optional<Meetup> optionalMeetup = meetupRepository.findById(meetupID);
 
         Set<Participant> participantSet;
         Meetup meetup;

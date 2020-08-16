@@ -31,7 +31,10 @@ public class ParticipantService {
 
     /// TODO Attention here if there will be bug
     @Autowired
-    public ParticipantService(ParticipantMapper participantMapper, ParticipantRepository participantRepository, MeetupRepository meetupRepository, MeetupMapper meetupMapper) {
+    public ParticipantService(ParticipantMapper participantMapper,
+                              ParticipantRepository participantRepository,
+                              MeetupRepository meetupRepository,
+                              MeetupMapper meetupMapper) {
         this.participantMapper = participantMapper;
         this.participantRepository = participantRepository;
         this.meetupRepository = meetupRepository;
@@ -111,8 +114,8 @@ public class ParticipantService {
      * @param meetupID is the ID of the meetup that we want to register
      * @return Message due to success or failure
      */
-    public String registerToMeetup(String username, String meetupID) {
-        Optional<Meetup> meetupOptional = meetupRepository.findByMeetupID(meetupID);
+    public String registerToMeetup(String username, Long meetupID) {
+        Optional<Meetup> meetupOptional = meetupRepository.findById(meetupID);
         Optional<Participant> participantOptional = participantRepository.findByUsername(username);
 
         Set<Participant> participantSet;
@@ -187,8 +190,8 @@ public class ParticipantService {
      * @param meetupID specifies the id of the meetup that we want to get details
      * @return MeetupDTO object which includes the information about given meetup
      */
-    public MeetupDTO getMeetupDetail(String meetupID) {
-        Optional<Meetup> optionalMeetup = meetupRepository.findByMeetupID(meetupID);
+    public MeetupDTO getMeetupDetail(Long meetupID) {
+        Optional<Meetup> optionalMeetup = meetupRepository.findById(meetupID);
 
         if (optionalMeetup.isPresent()) {
             Meetup meetup = optionalMeetup.get();
@@ -266,8 +269,8 @@ public class ParticipantService {
      * @param meetupID specifies the meetup that we want to unregister
      * @return Appropriate string message
      * */
-    public String unregisterMeetup(String username, String meetupID) {
-        Optional<Meetup> meetupOptional = meetupRepository.findByMeetupID(meetupID);
+    public String unregisterMeetup(String username, Long meetupID) {
+        Optional<Meetup> meetupOptional = meetupRepository.findById(meetupID);
         Optional<Participant> participantOptional = participantRepository.findByUsername(username);
 
         Set<Participant> participantSet;

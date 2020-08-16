@@ -1,5 +1,6 @@
 package eventmanagementinternyte.eventmanagementsystembackend.entity;
 
+import eventmanagementinternyte.eventmanagementsystembackend.validation.IdentityNumber;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,6 @@ public class Admin extends BaseEntity{
     private int age;
 
     @Column(name = "IDENTITY_NUMBER", unique = true)
-    // TODO Validation will be here
+    @IdentityNumber(message = "Identity number must be valid!")
     private String identityNumber;
 }
