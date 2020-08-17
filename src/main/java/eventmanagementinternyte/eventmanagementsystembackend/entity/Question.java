@@ -6,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -22,7 +19,7 @@ public class Question extends BaseEntity {
     private String askedQuestion;
 
     @Column(name = "MEETUP_ID")
-    private String meetupID;
+    private Long meetupID;
 
     @Column(name = "IS_ANSWERED")
     private int isAnswered;

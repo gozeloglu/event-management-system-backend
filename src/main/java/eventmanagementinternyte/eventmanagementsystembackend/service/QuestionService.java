@@ -28,12 +28,12 @@ public class QuestionService {
      * @param meetupID represents the id of the meetup
      * @return List of Question
      */
-    public List<Question> listAllQuestions(String meetupID) {
+    public List<Question> listAllQuestions(Long meetupID) {
 
         List<Question> questionList = questionRepository.findAll();
         List<Question> questions = new ArrayList<>();
         for (Question question : questionList) {
-            if (question.getMeetupID().equals(meetupID)) {
+            if (question.getMeetupID() == meetupID) {
                 questions.add(question);
             }
         }

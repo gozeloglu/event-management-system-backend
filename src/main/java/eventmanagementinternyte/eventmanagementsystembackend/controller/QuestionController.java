@@ -18,7 +18,7 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping(value = "/all-questions/{meetupID}")
-    public List<Question> listAllQuestions(@PathVariable String meetupID) {
+    public List<Question> listAllQuestions(@PathVariable Long meetupID) {
         return questionService.listAllQuestions(meetupID);
     }
 
