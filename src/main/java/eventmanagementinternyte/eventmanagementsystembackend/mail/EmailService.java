@@ -1,13 +1,19 @@
 package eventmanagementinternyte.eventmanagementsystembackend.mail;
 
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 public class EmailService {
 
-    public void sendMail(String to, String subject, String mail) {
+    public void sendMail(String to, String subject, String mail) throws MessagingException {
         final String username = "noreply.tubitakbilgemyte@gmail.com";
         final String password = "23011998123456789.!";
 
@@ -18,7 +24,7 @@ public class EmailService {
         prop.put("mail.smtp.starttls.enable", "true"); //TLS
 
         Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
+                new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(username, password);
                     }
@@ -43,12 +49,25 @@ public class EmailService {
         } catch (MessagingException messagingException) {
             messagingException.printStackTrace();
         }
+
+        BodyPart messageBodyPart1 = new MimeBodyPart();
         try {
-            message.setText(mail);
+            messageBodyPart1.setText(mail);
         } catch (MessagingException messagingException) {
             messagingException.printStackTrace();
         }
 
+        MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+        String filename = "C:\\Users\\gozel\\OneDrive\\Desktop\\qr.png";
+        DataSource source = new FileDataSource(filename);
+        messageBodyPart2.setDataHandler(new DataHandler(source));
+        messageBodyPart2.setFileName("QR_Code.png");
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart1);
+        multipart.addBodyPart(messageBodyPart2);
+
+        message.setContent(multipart);
         try {
             Transport.send(message);
         } catch (MessagingException messagingException) {

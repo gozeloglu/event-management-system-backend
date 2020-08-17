@@ -1,5 +1,11 @@
 package eventmanagementinternyte.eventmanagementsystembackend.service;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.AdminDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Admin;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
@@ -12,7 +18,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.Hashtable;
 import java.util.Optional;
 import java.util.Set;
 
@@ -128,7 +139,13 @@ public class AdminService {
         return adminMapper.mapToDto(admin);
     }
 
-    public String sendEmail(String to, String subject, String mail) {
+    public String sendEmail(String to, String subject, String mail, String qrCodeString) throws WriterException, MessagingException, IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        Hashtable hints = new Hashtable();
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        BitMatrix bitMatrix = qrCodeWriter.encode(qrCodeString, BarcodeFormat.QR_CODE, 300, 300, hints);
+        Path path = FileSystems.getDefault().getPath("C:\\Users\\gozel\\OneDrive\\Desktop\\qr.png");
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
         EmailService emailService = new EmailService();
         emailService.sendMail(to, subject, mail);
         return "Mail is sent";
