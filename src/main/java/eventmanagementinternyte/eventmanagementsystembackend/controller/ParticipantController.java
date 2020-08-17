@@ -1,7 +1,9 @@
 package eventmanagementinternyte.eventmanagementsystembackend.controller;
 
+import com.google.zxing.WriterException;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.MeetupDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
+import eventmanagementinternyte.eventmanagementsystembackend.entity.Mail;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.MeetupMapper;
@@ -11,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -64,8 +68,8 @@ public class ParticipantController {
     }
 
     @PostMapping("/register-participant/{username}/{meetupID}")
-    public String registerParticipantToMeetup(@PathVariable String username, @PathVariable Long meetupID) {
-        return participantService.registerToMeetup(username, meetupID);
+    public String registerParticipantToMeetup(@PathVariable String username, @PathVariable Long meetupID, @RequestBody Mail mail) throws MessagingException, IOException, WriterException {
+        return participantService.registerToMeetup(username, meetupID, mail);
     }
 
     @PostMapping("/login")

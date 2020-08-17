@@ -139,7 +139,7 @@ public class AdminService {
         return adminMapper.mapToDto(admin);
     }
 
-    public String sendEmail(String to, String subject, String mail, String qrCodeString) throws WriterException, MessagingException, IOException {
+   /* public String sendEmail(String to, String subject, String mail, String qrCodeString) throws WriterException, MessagingException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Hashtable hints = new Hashtable();
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
@@ -147,7 +147,8 @@ public class AdminService {
         Path path = FileSystems.getDefault().getPath("C:\\Users\\gozel\\OneDrive\\Desktop\\qr.png");
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
         EmailService emailService = new EmailService();
+        System.out.println(to);
         emailService.sendMail(to, subject, mail);
         return "Mail is sent";
-    }
+    }*/
 }

@@ -64,8 +64,8 @@ public class AdminController {
         return adminService.getAdminDetails(username);
     }
 
-    @PostMapping(value = "/send-email")
+   /* @PostMapping(value = "/send-email")
     public String sendEmail(@RequestBody Mail mail) throws WriterException, MessagingException, IOException {
         return adminService.sendEmail(mail.getTo(), mail.getSubject(), mail.getMail(), mail.getQrCodeString());
-    }
+    }*/
 }

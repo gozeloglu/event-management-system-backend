@@ -1,9 +1,17 @@
 package eventmanagementinternyte.eventmanagementsystembackend.service;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.MeetupDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
+import eventmanagementinternyte.eventmanagementsystembackend.entity.Mail;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
+import eventmanagementinternyte.eventmanagementsystembackend.mail.EmailService;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.MeetupMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.ParticipantMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.MeetupRepository;
@@ -12,8 +20,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -114,7 +127,7 @@ public class ParticipantService {
      * @param meetupID is the ID of the meetup that we want to register
      * @return Message due to success or failure
      */
-    public String registerToMeetup(String username, Long meetupID) {
+    public String registerToMeetup(String username, Long meetupID, Mail mail) throws IOException, MessagingException, WriterException {
         Optional<Meetup> meetupOptional = meetupRepository.findById(meetupID);
         Optional<Participant> participantOptional = participantRepository.findByUsername(username);
 
@@ -151,6 +164,7 @@ public class ParticipantService {
         meetup.setRegisteredUserCount(registeredUserCount);
         participantRepository.save(participant);
         meetupRepository.save(meetup);
+        sendEmail(mail.getTo(), mail.getSubject(), mail.getMail(), mail.getQrCodeString());
         return "You are registered to meetup!";
     }
 
@@ -299,5 +313,18 @@ public class ParticipantService {
         participantRepository.save(participant);
         meetupRepository.save(meetup);
         return "You are unregistered to meetup!";
+    }
+
+    public String sendEmail(String to, String subject, String mail, String qrCodeString) throws WriterException, MessagingException, IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        Hashtable hints = new Hashtable();
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        BitMatrix bitMatrix = qrCodeWriter.encode(qrCodeString, BarcodeFormat.QR_CODE, 300, 300, hints);
+        Path path = FileSystems.getDefault().getPath("C:\\Users\\gozel\\OneDrive\\Desktop\\qr.png");
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+        EmailService emailService = new EmailService();
+        System.out.println(to);
+        emailService.sendMail(to, subject, mail);
+        return "Mail is sent";
     }
 }
