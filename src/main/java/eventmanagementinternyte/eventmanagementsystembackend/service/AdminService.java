@@ -4,6 +4,7 @@ import eventmanagementinternyte.eventmanagementsystembackend.dto.AdminDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Admin;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Meetup;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
+import eventmanagementinternyte.eventmanagementsystembackend.mail.EmailService;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.AdminMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.AdminRepository;
 import eventmanagementinternyte.eventmanagementsystembackend.repository.MeetupRepository;
@@ -119,11 +120,17 @@ public class AdminService {
     /**
      * This method fetches the details of the admin
      *
-     * @param username is the admin's username
+     * @param username is the admin username
      * @return AdminDTO object
      */
     public AdminDTO getAdminDetails(String username) {
         Admin admin = adminRepository.findByUsername(username);
         return adminMapper.mapToDto(admin);
+    }
+
+    public String sendEmail(String to, String subject, String mail) {
+        EmailService emailService = new EmailService();
+        emailService.sendMail(to, subject, mail);
+        return "Mail is sent";
     }
 }

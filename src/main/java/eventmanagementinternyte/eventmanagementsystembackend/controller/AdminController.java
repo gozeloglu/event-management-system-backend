@@ -3,6 +3,7 @@ package eventmanagementinternyte.eventmanagementsystembackend.controller;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.AdminDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Admin;
+import eventmanagementinternyte.eventmanagementsystembackend.entity.Mail;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.AdminMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.ParticipantMapper;
@@ -58,5 +59,10 @@ public class AdminController {
     @GetMapping(value = "/admin-details/{username}")
     public AdminDTO getAdminDetails(@PathVariable String username) {
         return adminService.getAdminDetails(username);
+    }
+
+    @PostMapping(value = "/send-email")
+    public String sendEmail(@RequestBody Mail mail) {
+        return adminService.sendEmail(mail.getTo(), mail.getSubject(), mail.getMail());
     }
 }
