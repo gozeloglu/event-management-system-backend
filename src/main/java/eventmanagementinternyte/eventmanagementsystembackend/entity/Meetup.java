@@ -18,9 +18,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class Meetup extends BaseEntity{
 
-   // @Column(name = "MEETUP_ID", unique = true)
-    //private String meetupID;
-
     @Column(name = "MEETUP_NAME")
     private String meetupName;
 
@@ -48,7 +45,4 @@ public class Meetup extends BaseEntity{
 
     @ManyToMany(mappedBy = "meetups")
     private Set<Participant> participants = new HashSet<>();
-
-    /*@ManyToMany(mappedBy = "meetups", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Question> questions = new HashSet<>();*/
 }

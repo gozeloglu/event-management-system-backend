@@ -8,9 +8,10 @@ import java.util.Optional;
 
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
 
-   Optional<Participant> findByUsername(String username);
-   Optional<Participant> findByIdentityNumber(String identityNumber);
+    Optional<Participant> findByUsername(String username);
 
-   @Transactional
-   void deleteByUsername(String username);
+    Optional<Participant> findByIdentityNumber(String identityNumber);
+
+    @Transactional
+    void deleteByUsername(String username);
 }

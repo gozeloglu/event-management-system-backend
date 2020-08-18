@@ -1,10 +1,8 @@
 package eventmanagementinternyte.eventmanagementsystembackend.controller;
 
-import com.google.zxing.WriterException;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.AdminDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.dto.ParticipantDTO;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Admin;
-import eventmanagementinternyte.eventmanagementsystembackend.entity.Mail;
 import eventmanagementinternyte.eventmanagementsystembackend.entity.Participant;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.AdminMapper;
 import eventmanagementinternyte.eventmanagementsystembackend.mapper.ParticipantMapper;
@@ -13,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -63,9 +59,4 @@ public class AdminController {
     public AdminDTO getAdminDetails(@PathVariable String username) {
         return adminService.getAdminDetails(username);
     }
-
-   /* @PostMapping(value = "/send-email")
-    public String sendEmail(@RequestBody Mail mail) throws WriterException, MessagingException, IOException {
-        return adminService.sendEmail(mail.getTo(), mail.getSubject(), mail.getMail(), mail.getQrCodeString());
-    }*/
 }

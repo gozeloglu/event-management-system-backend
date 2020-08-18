@@ -42,7 +42,6 @@ public class ParticipantService {
     private ParticipantMapper participantMapper;
     private MeetupMapper meetupMapper;
 
-    /// TODO Attention here if there will be bug
     @Autowired
     public ParticipantService(ParticipantMapper participantMapper,
                               ParticipantRepository participantRepository,
@@ -74,20 +73,6 @@ public class ParticipantService {
     }
 
     public Set<Meetup> getParticipantMeetups(String username) {
-       /* try {
-            Participant participant = participantRepository.findByUsername(username);
-            if (participant.isNull()) {
-                Set<Meetup> set = new HashSet<>();
-                return set;
-            } else {
-                return participant.getMeetups();
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            Set<Meetup> set = new HashSet<>();
-            return set;
-        }
-        */
         return participantRepository.findByUsername(username).map(Participant::getMeetups)
                 .orElseThrow(EntityNotFoundException::new);
     }
@@ -282,7 +267,7 @@ public class ParticipantService {
      * @param username specifies the participant that we want to unregister
      * @param meetupID specifies the meetup that we want to unregister
      * @return Appropriate string message
-     * */
+     */
     public String unregisterMeetup(String username, Long meetupID) {
         Optional<Meetup> meetupOptional = meetupRepository.findById(meetupID);
         Optional<Participant> participantOptional = participantRepository.findByUsername(username);
@@ -315,7 +300,20 @@ public class ParticipantService {
         return "You are unregistered to meetup!";
     }
 
-    public String sendEmail(String to, String subject, String mail, String qrCodeString) throws WriterException, MessagingException, IOException {
+    /**
+     * This method sends the email to participant after registration
+     * Generates the QR Code and save it on the local
+     *
+     * @param to           is the mail address of the receiver
+     * @param subject      is the mail's subject
+     * @param mail         is the mail's body
+     * @param qrCodeString is the message of the QR Code
+     * @return A message after sending mail
+     */
+    public String sendEmail(String to,
+                            String subject,
+                            String mail,
+                            String qrCodeString) throws WriterException, MessagingException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Hashtable hints = new Hashtable();
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
@@ -323,7 +321,6 @@ public class ParticipantService {
         Path path = FileSystems.getDefault().getPath("C:\\Users\\gozel\\OneDrive\\Desktop\\qr.png");
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
         EmailService emailService = new EmailService();
-        System.out.println(to);
         emailService.sendMail(to, subject, mail);
         return "Mail is sent";
     }

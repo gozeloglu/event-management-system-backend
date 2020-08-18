@@ -17,7 +17,7 @@ import javax.validation.constraints.Email;
 @SequenceGenerator(name = "idgen", sequenceName = "ADMIN_SEQ")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Admin extends BaseEntity{
+public class Admin extends BaseEntity {
 
     @Column(name = "FIRST_NAME")
     private String firstName;

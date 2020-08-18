@@ -13,6 +13,14 @@ import java.util.Properties;
 
 public class EmailService {
 
+    /**
+     * This method send the mail to participant after registration of the meetup
+     *
+     * @param to      is the receiver's mail address
+     * @param subject is the subject of the mail
+     * @param mail    is the body of the mail
+     * @throws MessagingException
+     */
     public void sendMail(String to, String subject, String mail) throws MessagingException {
         final String username = "noreply.tubitakbilgemyte@gmail.com";
         final String password = "23011998123456789.!";

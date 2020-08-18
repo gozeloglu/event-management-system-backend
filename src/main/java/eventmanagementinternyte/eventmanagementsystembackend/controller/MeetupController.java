@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @RestController
@@ -30,6 +29,7 @@ public class MeetupController {
     @PostMapping(value = "/create-new-meetup")
     public MeetupDTO addNewMeetup(@Valid @RequestBody MeetupDTO meetupDTO) {
         Meetup meetup = meetupMapper.mapToEntity(meetupDTO);
+        meetup.setRegisteredUserCount(0);
         Meetup newMeetup = meetupService.saveNewMeetup(meetup);
         return meetupMapper.mapToDto(newMeetup);
     }

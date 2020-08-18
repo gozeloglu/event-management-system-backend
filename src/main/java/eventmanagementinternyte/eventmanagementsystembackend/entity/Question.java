@@ -23,15 +23,4 @@ public class Question extends BaseEntity {
 
     @Column(name = "IS_ANSWERED")
     private int isAnswered;
-
-   /* @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "question_meetup",
-            joinColumns = {@JoinColumn(name = "fk_question")},
-            inverseJoinColumns = {@JoinColumn(name = "fk_meetup2")}
-    )
-    private Set<Meetup> meetups = new HashSet<>();
-
-    public Set<Meetup> getMeetups() {
-        return this.meetups;
-    }*/
 }

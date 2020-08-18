@@ -38,12 +38,12 @@ public class ParticipantDTO {
 
     @JsonCreator
     public ParticipantDTO(@JsonProperty("firstName") String firstName,
-                    @JsonProperty("lastName") String lastName,
-                    @JsonProperty("email") String email,
-                    @JsonProperty("userName") String username,
-                    @JsonProperty("password") String password,
-                    @JsonProperty("age") int age,
-                    @JsonProperty("identityNumber") String identityNumber) {
+                          @JsonProperty("lastName") String lastName,
+                          @JsonProperty("email") String email,
+                          @JsonProperty("userName") String username,
+                          @JsonProperty("password") String password,
+                          @JsonProperty("age") int age,
+                          @JsonProperty("identityNumber") String identityNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

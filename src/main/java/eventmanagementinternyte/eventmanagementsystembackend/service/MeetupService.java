@@ -130,6 +130,7 @@ public class MeetupService {
 
     /**
      * Fetches the given meetup
+     *
      * @param meetupID specifies the meetup id
      * @return MeetupDTO object
      */
