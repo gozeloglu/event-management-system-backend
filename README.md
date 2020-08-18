@@ -3,7 +3,7 @@
 # Introduction
 
 This is my [Spring Boot](https://spring.io/projects/spring-boot) project.
-You can reach this project's Wiki from [here](https://github.com/gozeloglu/event-management-system-backend/wiki).
+You can reach this project's Wiki from [here](https://github.com/gozeloglu/event-management-system-backend/wiki). Also you can reach the mobile application from [here](https://github.com/gozeloglu/event_management_app)
 
 ## Download & Run 🚀 
 
